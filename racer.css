@@ -13,10 +13,14 @@
 
   border: 2px solid black;
   border-radius: 2em;
+
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
 }
 .one {
   top: 40%;
-  background-color: blue;
+  background-color: #0971ef;
 }
 .two {
   top: 50%;  
@@ -26,6 +30,7 @@
 .game {
   width: 100%;
   height: 60%;
+  margin-top: 1%;
 }
 .track {
   box-sizing: border-box;
@@ -58,11 +63,11 @@
   background: rgba(0, 0, 0, 0.5);
 }
 
-.ready-up {
+.ready-up > td {
   background-color: gray;
 }
 .ready {
-  background-color: green !important;
+  background-color: #0bea0b !important;
 }
 
 
@@ -73,6 +78,7 @@ body {
 header {
   margin-left: 20%;
   margin-right: 20%;
+  width: 60%;
   height: 40%;
 }
 h1 {
@@ -81,9 +87,19 @@ h1 {
 h2 {
   font-size: 130%;
 }
+
+table, th, td {
+  border: 2px solid gray;
+}
+thead > tr > th {
+  padding-bottom: 3px;
+  border-bottom: 2px solid gray;
+}
 td {
+  padding: 2px;
   padding-left: 3px;
   padding-right: 3px;
+  margin: 1px;
 }
 
 .center {

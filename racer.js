@@ -7,6 +7,9 @@ var player2 = document.getElementById('player2');
 //tracks
 var track1 = document.getElementById('track1');
 var track2 = document.getElementById('track2');
+//ready indicator cells
+var ready1 = document.getElementById('ready1');
+var ready2 = document.getElementById('ready2');
 
 //ensure position = races.css .player{left: [% value]} 
 var players = [{style:player1.style, position:-9, ready: false}, 
@@ -39,6 +42,8 @@ function keyUpHandler (e) {
     if (gameState === "readyUp") {
       players[0].ready = true //this player is ready
       track1.className = track1.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
+      ready1.className = "ready";
+      ready1.innerHTML = "Ready!";
     }
     else if (gameState === "playing"){
       movePlayer(0);
@@ -48,6 +53,8 @@ function keyUpHandler (e) {
     if (gameState === "readyUp") {
       players[1].ready = true //this player is ready
       track2.className = track2.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
+      ready2.className = "ready";
+      ready2.innerHTML = "Ready!";
     }
     else if (gameState === "playing"){
       movePlayer(1);
@@ -59,10 +66,14 @@ function keyUpHandler (e) {
   }
 };
 
-function restartGame () {
-  location.reload();
-};
+function readyUp (playerNum) {
+  if (playerNum === 1) {
 
+  }
+  else if (playerNum === 2) {
+    
+  }
+}
 function startGame() {
   console.log('allplayRed: ' + allPlayersReady());
   if (allPlayersReady()) {
@@ -86,4 +97,8 @@ function allPlayersReady () {
     };
   };
   return numReady === players.length;
+};
+
+function restartGame () {
+  location.reload();
 };
