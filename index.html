@@ -12,13 +12,15 @@
   <header>
     <h1>Script Kiddie Racer</h1>
     <h2>Are you ready to race?</h2>
-    <h3>Controls</h3>
+    <input type="button" value="Restart game (R)" onclick="restartGame()" />
+    <input type="button" value="Start game (Space)" onclick="startGame()" />
 
+    <h3>Controls</h3>
     <table>
       <thead>
         <tr>
-          <th>Player two</th>
           <th>Player one</th>
+          <th>Player two</th>
         </tr>
       </thead>
       <tbody>
@@ -26,18 +28,22 @@
           <td>Q - Go forward</td>
           <td>P - Go forward</td>
         </tr>
+        <tr class="center readyup">
+          <td id="ready1">Ready up!</td>
+          <td id="ready2">Ready up!</td>
+        </tr>
       </tbody>
     </table>
 
   </header>
 
   <div class="game">
-    <div class="track">
+    <div class="track dimmed" id="track1">
       <div class="player one" id="player1">
         -- Q --
       </div>
     </div>
-    <div class="track">
+    <div class="track dimmed" id="track2">
       <div class="player two" id="player2">
         -- P --
       </div>
