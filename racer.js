@@ -36,44 +36,46 @@ function keyUpHandler (e) {
   if (e.keyCode == 82) {
     restartGame();
     return;
-  }
-  //Q key is 81, P key is 80
+  } //Player one
   if (e.keyCode == 81) {
+    //Q key is 81
     if (gameState === "readyUp") {
-      players[0].ready = true //this player is ready
-      track1.className = track1.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
-      ready1.className = "ready";
-      ready1.innerHTML = "Ready!";
+      readyUp(0);
     }
     else if (gameState === "playing"){
       movePlayer(0);
     }
   } //Player two
   else if (e.keyCode == 80) {
+    //P key is 80
     if (gameState === "readyUp") {
-      players[1].ready = true //this player is ready
-      track2.className = track2.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
-      ready2.className = "ready";
-      ready2.innerHTML = "Ready!";
+      readyUp(1);
     }
     else if (gameState === "playing"){
       movePlayer(1);
     }
   }
   else if (e.keyCode == 32) {
-    //space
+    //Space is 32
     startGame();
   }
 };
 
-function readyUp (playerNum) {
-  if (playerNum === 1) {
+function readyUp (playerIndex) {
+  if (playerIndex === 0) {
+    players[0].ready = true //this player is ready
+    track1.className = track1.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
+    ready1.className = "ready";
+    ready1.innerHTML = "Ready!";
+  }
+  else if (playerIndex === 1) {
+    players[1].ready = true //this player is ready
+    track2.className = track2.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
+    ready2.className = "ready";
+    ready2.innerHTML = "Ready!";
+  };
+};
 
-  }
-  else if (playerNum === 2) {
-    
-  }
-}
 function startGame() {
   console.log('allplayRed: ' + allPlayersReady());
   if (allPlayersReady()) {
