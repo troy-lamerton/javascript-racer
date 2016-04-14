@@ -1,0 +1,34 @@
+.player {
+  box-sizing: border-box;
+  width: 10%;
+  height: 8%;
+  display: block;
+  position: absolute;
+  left:-9%;
+  z-index: 10;
+
+  margin: 6px;
+  margin-left: 0px;
+
+  color: white;
+  text-align: center;
+  font-weight: bolder;
+  padding-top: 1em;
+
+  border: 2px solid black;
+  border-radius: 2em;
+
+}
+.one {
+  top: 40%;
+  background-color: blue;
+}
+.two {
+  top: 50%;  
+  background-color: red;
+}
+
+
+body {
+  overflow-x: hidden; /* hide scroll bars */
+}
