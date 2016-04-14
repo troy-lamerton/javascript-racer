@@ -2,18 +2,17 @@
   box-sizing: border-box;
   width: 10%;
   height: 8%;
+  line-height: 400%;
   display: block;
-  position: absolute;
-  left:-9%;
-  z-index: 10;
-
+  /* position: absolute; */
   margin: 6px;
   margin-left: 0px;
+  margin-left:-9%;
+  z-index: 10;
 
   color: white;
   text-align: center;
   font-weight: bolder;
-  padding-top: 1em;
 
   border: 2px solid black;
   border-radius: 2em;
@@ -28,7 +27,31 @@
   background-color: red;
 }
 
+.game {
+  width: 100%;
+  height: 60%;
+}
+.track {
+  width: 100%;
+  border: 2px solid black;
+
+  background-image: url('http://i.stack.imgur.com/D9pKg.jpg');
+  background-color: gray;
+}
 
 body {
   overflow-x: hidden; /* hide scroll bars */
+}
+
+header {
+  margin-left: auto;
+  margin-right: auto;
+  height: 40%;
+}
+
+h1 {
+  font-size: 150%;
+}
+h2 {
+  font-size: 130%;
 }

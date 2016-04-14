@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Javascript Racer - Two players</title>
+  <title>Script Kiddie Racer</title>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css" type="text/css" />
 
@@ -9,15 +9,39 @@
 </head>
 <body>
 
-  <div class="wrapper">
-    <div class="player one" id="player1">
-      -- 1 --
+  <header>
+    <h1>Script Kiddie Racer</h1>
+    <h2>Are you ready to race?</h2>
+    <h3>Controls</h3>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Player two</th>
+          <th>Player one</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Q - Go forward</td>
+          <td>P - Go forward</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </header>
+
+  <div class="game">
+    <div class="track">
+      <div class="player one" id="player1">
+        -- Q --
+      </div>
     </div>
-    <br><div class="player two" id="player2">
-      -- 2 --
+    <div class="track">
+      <div class="player two" id="player2">
+        -- P --
+      </div>
     </div>
-    <input type="submit" value="Go playa1!" onclick="movePlayer(0)" />
-    <input type="submit" value="Go playa2!" onclick="movePlayer(1)" />
   </div>
 
   <script src="racer.js"></script>
