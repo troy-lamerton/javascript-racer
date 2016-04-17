@@ -1,5 +1,6 @@
 //constants
-var SPEED = 5;
+var SPEED = 3.9;
+var FINISH = 80; //finish = .finish{left} - .player{width} - finish{border-left}
 
 //players
 var player1 = document.getElementById('player1');
@@ -10,6 +11,8 @@ var track2 = document.getElementById('track2');
 //ready indicator cells
 var ready1 = document.getElementById('ready1');
 var ready2 = document.getElementById('ready2');
+//message text
+var message = document.getElementById('message');
 
 //ensure position = races.css .player{left: [% value]} 
 var players = [{style:player1.style, position:-9, ready: false}, 
@@ -20,23 +23,27 @@ var players = [{style:player1.style, position:-9, ready: false},
 var gameState = "readyUp"; //readyUp, playing, win1, win2
 
 /* Functions */
-//move a player element to the right
-var movePlayer = function movePlayer (playerNum) {
-  players[playerNum].position += SPEED;
-  players[playerNum].style["margin-left"] = players[playerNum].position + "%";
+//move a player element to the right and check if they have won
+function movePlayer (playerIndex) {
+  players[playerIndex].position += SPEED;
+  players[playerIndex].style["margin-left"] = players[playerIndex].position + "%";
+  //has player won?
+  if (players[playerIndex].position >= FINISH) {
+    gameWon(playerIndex);
+  }
 };
 
-/* Assign keyup handler */
+/* Assign keyup handler once page is fully loaded*/
 document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('keyup', keyUpHandler, false)
 });
-
+/* Keycodes map https://shikargar.files.wordpress.com/2010/10/keycodes.png */
 function keyUpHandler (e) {
   //R key is 82
   if (e.keyCode == 82) {
     restartGame();
     return;
-  } //Player one
+  } /* Player one */
   if (e.keyCode == 81) {
     //Q key is 81
     if (gameState === "readyUp") {
@@ -45,7 +52,7 @@ function keyUpHandler (e) {
     else if (gameState === "playing"){
       movePlayer(0);
     }
-  } //Player two
+  } /* Player two */
   else if (e.keyCode == 80) {
     //P key is 80
     if (gameState === "readyUp") {
@@ -55,7 +62,7 @@ function keyUpHandler (e) {
       movePlayer(1);
     }
   }
-  else if (e.keyCode == 32) {
+  else if (e.keyCode == 32 && gameState === "readyUp") {
     //Space is 32
     startGame();
   }
@@ -64,23 +71,29 @@ function keyUpHandler (e) {
 function readyUp (playerIndex) {
   if (playerIndex === 0) {
     players[0].ready = true //this player is ready
+    //remove dimmer from player's track
     track1.className = track1.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
     ready1.className = "ready";
     ready1.innerHTML = "Ready!";
   }
   else if (playerIndex === 1) {
     players[1].ready = true //this player is ready
+    //remove dimmer from player's track
     track2.className = track2.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
     ready2.className = "ready";
     ready2.innerHTML = "Ready!";
   };
+
+  if ( allPlayersReady() ) {
+    message.innerHTML = "Press [Space] to race!";
+  }
 };
 
-function startGame() {
-  console.log('allplayRed: ' + allPlayersReady());
+function startGame () {
+  console.log('allPlayersReady: ' + allPlayersReady());
   if (allPlayersReady()) {
     gameState = "playing"; //movement events are accepted now
-    //remove dimmer from game board
+    message.innerHTML = "Go! Go! Go!";
   }
   else {
     alert('All players must ready up first!');
@@ -98,7 +111,27 @@ function allPlayersReady () {
       break;
     };
   };
-  return numReady === players.length;
+  return (numReady === players.length);
+};
+
+function gameWon (playerIndex) {
+  gameState = "win" + (playerIndex + 1); //win1 or win2
+  message.innerHTML = "Player " + (playerIndex+1) + " wins the race!";
+  //dim the track of the losing player
+  dimOtherTrack(playerIndex);
+  //show restart game button
+  document.getElementById('restart').className = "show";
+};
+/* Dims a player's track - visual only, doesn't affect movement */
+function dimOtherTrack (playerIndex) {
+  if (playerIndex === 0) {
+    //dim player 2 track, emphasizing winning track
+    track2.className += " dimmed";
+  }
+  else {
+    //dim player 1 track, emphasizing winning track
+    track1.className += " dimmed";
+  };
 };
 
 function restartGame () {

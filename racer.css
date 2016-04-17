@@ -45,8 +45,20 @@
 
   text-align: center;
   color: white;
+  z-index: 0;
 }
+.finish {
+  width: 0;
+  height: 190px;
+  position: absolute;
+  margin: 0;
+  left: 90%;
 
+  background: white;
+  border-left: 6px dashed black;
+  border-right: 6px dashed black;
+  z-index:1;
+}
 
 .dimmed {
   position: relative;
@@ -92,6 +104,7 @@ table, th, td {
   border: 2px solid gray;
 }
 thead > tr > th {
+  padding-top: 2px;
   padding-bottom: 3px;
   border-bottom: 2px solid gray;
 }
@@ -104,4 +117,11 @@ td {
 
 .center {
   text-align: center;
+}
+
+.hide {
+  display: none;
+}
+.show {
+  display: inline-block;
 }
