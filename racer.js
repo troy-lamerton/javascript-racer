@@ -14,7 +14,38 @@ var ready2 = document.getElementById('ready2');
 //message text
 var message = document.getElementById('message');
 
-//ensure position = races.css .player{left: [% value]} 
+/*  Players object */
+//  An array of two player objects, stored at players[0] and [1]
+
+/*  Player object */
+/*  html: | DOM object representing this player on the page
+    position: [x, y] | coordinate of player location on grid
+    direction: 0 OR 1 | 0: player is pointing horizontally,
+                        1: player is pointing vertically,
+                        used for visually displaying the player */
+
+/*  Maze object */
+/*  importMaze (filePath): 2D-array of rows[cells] OR undefined
+    rows: [ [<cell>,<cell>, ... ], [<cell>,<cell>, ... ], ... ] */
+
+/*  Game functions */
+//    In function parameters, (player) means 
+//    the player object e.g. players[1] is player 2.
+/*  move (player, direction): true or false |
+      true: player has won
+      false: player has not won, game continues
+    canMove (player, direction): true or false | 
+      checks if a given player is not blocked and 
+      can move in the given direction
+    hasWon (player): | displays that player has won,
+      pauses the game and shows the restart button
+    announceWinner (player): | displays that player has won, 
+      pauses the game and shows the restart button
+    newMap (filePath): true if successfully loads | loads a new map from
+      given filePath, sets the player starting positions 
+      and centre win block position */
+
+//ensure position = racer.css .player{margin-left: [% value]} 
 var players = [{style:player1.style, position:-9, ready: false}, 
 {style: player2.style, position:-9, ready: false}];
 //var playersBackup = JSON.parse(JSON.stringify(players)); //clones players array
@@ -117,7 +148,7 @@ function allPlayersReady () {
 function gameWon (playerIndex) {
   gameState = "win" + (playerIndex + 1); //win1 or win2
   message.innerHTML = "Player " + (playerIndex+1) + " wins the race!";
-  //dim the track of the losing player
+  //dim the other player's spotlight
   dimOtherTrack(playerIndex);
   //show restart game button
   document.getElementById('restart').className = "show";
