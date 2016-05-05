@@ -3,16 +3,20 @@ var SPEED = 3.9;
 var FINISH = 80; //finish = .finish{left} - .player{width} - finish{border-left}
 
 //players
-var player1 = document.getElementById('player1');
-var player2 = document.getElementById('player2');
-//tracks
-var track1 = document.getElementById('track1');
-var track2 = document.getElementById('track2');
+var player1 = $('#player1');
+var player2 = $('#player2');
 //ready indicator cells
 var ready1 = document.getElementById('ready1');
 var ready2 = document.getElementById('ready2');
 //message text
 var message = document.getElementById('message');
+
+//ensure position = racer.css .player{margin-left: [% value]} 
+var players = [
+  {html: player1, position: [-1, -1], direction: true, ready: false},
+  {html: player2, position: [-1, -1], direction: true, ready: false}
+  
+];
 
 /*  Players object */
 //  An array of two player objects, stored at players[0] and [1]
@@ -20,8 +24,9 @@ var message = document.getElementById('message');
 /*  Player object */
 /*  html: | DOM object representing this player on the page
     position: [x, y] | coordinate of player location on grid
-    direction: 0 OR 1 | 0: player is pointing horizontally,
-                        1: player is pointing vertically,
+    ready: true OR false | true after the player hits key
+    direction: true OR false | false: player is pointing horizontally,
+                        true: player is pointing vertically,
                         used for visually displaying the player */
 
 /*  Maze object */
@@ -43,12 +48,9 @@ var message = document.getElementById('message');
       pauses the game and shows the restart button
     newMap (filePath): true if successfully loads | loads a new map from
       given filePath, sets the player starting positions 
-      and centre win block position */
-
-//ensure position = racer.css .player{margin-left: [% value]} 
-var players = [{style:player1.style, position:-9, ready: false}, 
-{style: player2.style, position:-9, ready: false}];
-//var playersBackup = JSON.parse(JSON.stringify(players)); //clones players array
+      and centre win block position
+    drawMaze (): creates an HTML table and draws the currently stored
+      maze */ 
 
 //states
 var gameState = "readyUp"; //readyUp, playing, win1, win2
