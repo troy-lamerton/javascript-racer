@@ -15,24 +15,23 @@ var message = document.getElementById('message');
 //  An array of two player objects, stored at players[0] and [1]
 /*  Player object */
 /*  html: | DOM object representing this player on the page
-    position: [x, y] | coordinate of player location on grid
+    position: [y, x] | coordinate of player location on grid
     ready: true OR false | true after the player hits key
     direction: true OR false | false: player is pointing horizontally,
                         true: player is pointing vertically,
-                        used for visually displaying the player */
+                        used for visually displaying the player 
+    startingPosition: [y, x] | the cell this player always starts at in the maze */
 var players = [
-  {html: player1, position: [0, 0], direction: true, ready: false},
-  {html: player2, position: [6, 6], direction: true, ready: false}
+  {html: player1, position: [0, 0], direction: true, ready: false, startingPosition: [0, 0]},
+  {html: player2, position: [6, 6], direction: true, ready: false, startingPosition: [6, 6]}
   // position: [row, cell] (essentially y, x)
 ];
 
 /*  Maze object */
 /*  [ [<cell>,<cell>, ... ], [<cell>,<cell>, ... ], ... ] */
-/* Maze notation */
-/* There are 14 possible cell shapes.
-/* Cells have four boolean values defining their borders.
-    Top, Right, Bottom, Left
-    This is the same as CSS. */
+/* Maze notation 
+ Cells have four boolean values defining their borders.
+    Defined in this order: Top, Right, Bottom, Left */
 var maze = [ //The below maze is 7x7 in size, and is simply a square. The top left cell is at [0, 0].
     [[true,false,false,true], [true,false,false,false], [true,false,false,false], [true,false,false,false], [true,false,false,false], [true,false,false,false], [true,true,false,false]],
     [[false,false,false,true], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,true,false,false]],
@@ -49,22 +48,24 @@ var winCell = [3,3] //location of the winning square, can be directly compared w
 //    In function parameters, (player) means 
 //    the player object e.g. players[1] is player 2.
 //    (playerIndex) means the players index, e.g. 0 refers to player 1 in the player array
-/*  move (player, direction): true or false |
-      true: player has won
-      false: player has not won, game continues
+/*  
+    drawMaze (): creates an HTML table and draws the currently stored
+      maze
+    drawPlayers (): remove the players and adds the <div>s to their current position 
     canMove (player, direction): true or false | 
       checks if a given player is not blocked and 
       can move in the given direction
+    move (player, direction): true or false |
+      true: player has won
+      false: player has not won, game continues
     hasWon (player): | displays that player has won,
       pauses the game and shows the restart button. Local function inside move.
     announceWinner (player): | displays that player has won, 
       pauses the game and shows the restart button
-    newMap (filePath): true if successfully loads | loads a new map from
-      given filePath, sets the player starting positions 
-      and centre win block position
-    drawMaze (): creates an HTML table and draws the currently stored
-      maze
-    drawPlayers (): remove the players and adds the <div>s to their current position */
+    newMaze (): | sets the players to their starting positions,
+      generates a new maze and set maze = to the new maze.
+    */
+
 function drawMaze () {
   var gameDiv = $("#maze");
   var rowString = "";
@@ -105,6 +106,7 @@ function drawMaze () {
   tableString += "</tbody></table>";
   gameDiv.append(tableString);
 }
+
 /* drawPlayers ():
  remove the players and adds the <div>s to their current position */
 function drawPlayers () {
@@ -121,9 +123,6 @@ function drawPlayers () {
   $("#cell_" + rowPOne + "_" + cellPOne).html(playerOneDiv);
   $("#cell_" + rowPTwo + "_" + cellPTwo).html(playerTwoDiv);
 }
-
-//states
-var gameState = "readyUp"; //readyUp, playing, win1, win2
 
 /*  canMove (player, direction): true or false | 
       checks if a given player is not blocked and 
@@ -158,10 +157,7 @@ function canMove (player, direction) {
     return true;
   }
 }
-/*  move (player, direction): true or false |
-      Moves the player from its position in the direction given
-      true: player has won
-      false: player has not won, game continues */
+
 function move (player, direction) {
   if (canMove(player,direction)) {
 
@@ -171,6 +167,14 @@ function move (player, direction) {
   }
 
 }
+
+//states
+var gameState = "readyUp"; //readyUp, playing, win1, win2
+
+/*  move (player, direction): true or false |
+      Moves the player from its position in the direction given
+      true: player has won
+      false: player has not won, game continues */
 
 /* Assign keyup handler once page is fully loaded*/
 document.addEventListener('DOMContentLoaded', function() {

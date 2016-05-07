@@ -72,6 +72,10 @@ table.controls thead, table.controls th {
   padding-right: 3px;
 }
 
+input {
+  color: #333;
+}
+
 /* Game display */
 .game {
   margin-top: 1%;
