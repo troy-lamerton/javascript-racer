@@ -68,32 +68,41 @@ function drawMaze () {
   var gameDiv = $("#maze");
   var rowString = "";
   var tableString = "<table><tbody>";
-
+  console.log("win:",winCell);
   // draw rows of cells
   maze.forEach(function (rowElement, row, array) {
     // tableString += "<tr>");
     rowString += "<tr>";
     maze[row].forEach(function (cellElement, cell, array) {
       //for each cell in the row
-      var borderClasses = "";
+      var cellClasses = "";
       //add a border for each wall exists
       
       if (maze[row][cell][0]) {
-        borderClasses += "top ";
+        cellClasses += "top ";
       }
       if (maze[row][cell][1]) {
-        borderClasses += "right ";
+        cellClasses += "right ";
       }
       if (maze[row][cell][2]) {
-        borderClasses += "bottom ";
+        cellClasses += "bottom ";
       }
       if (maze[row][cell][3]) {
-        borderClasses += "left ";
+        cellClasses += "left ";
+      }
+      //check if this is the winning cell
+      if (row === 3 && cell === 3){
+        console.log (isWinCell([row,cell]));
+        console.log([row,cell]);
+      }
+      if (isWinCell([row,cell])) {
+        //apply the winning cell class
+        cellClasses += "finish ";
       }
       //remove the trailing space character
-      borderClasses = borderClasses.slice(0, borderClasses.length-1)
+      cellClasses = cellClasses.slice(0, cellClasses.length-1)
       var cellId = "cell_" + row + "_" + cell; // cell_0_0
-      rowString += '<td class="' + borderClasses + '" id="' + cellId + '"></td>';
+      rowString += '<td class="' + cellClasses + '" id="' + cellId + '"></td>';
     });
     // tableString += "</tr>");
     rowString += "</tr>";
@@ -182,12 +191,32 @@ function move (playerIndex, direction) {
     }
 
     drawPlayers();
+    return isWinCell(players[playerIndex].position);
   }
   else {
-    //can't move so player definately hasn't won from this move
+    //can't move so player definately hasn't won
     return false;
   }
+}
 
+
+/*hasWon (player): true or false | checks that the player has won.*/
+function isWinCell (position) {
+  if (position[0] === winCell[0] && position[1] === winCell[1]) return true;
+  else return false;
+}
+
+/*announceWinner (playerIndex): | displays that player has won, 
+      pauses the game and shows the restart button*/
+function announceWinner (playerIndex) {
+  switch (playerIndex) {
+    case 0:
+      message.html("Player one has won!");
+      break;
+    case 1:
+      message.html("Player two has won!");
+      break;
+  }
 }
 
 //states
@@ -244,57 +273,18 @@ function keyUpHandler (e) {
   }
 };
 
-function readyUp (playerIndex) {
-  if (playerIndex === 0) {
-    players[0].ready = true //this player is ready
-    //remove dimmer from player's track
-    track1.className = track1.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
-    ready1.className = "ready";
-    ready1.innerHTML = "Ready!";
-  }
-  else if (playerIndex === 1) {
-    players[1].ready = true //this player is ready
-    //remove dimmer from player's track
-    track2.className = track2.className.replace( /(?:^|\s)dimmed(?!\S)/g , '' );
-    ready2.className = "ready";
-    ready2.innerHTML = "Ready!";
-  };
-
-  if ( allPlayersReady() ) {
-    message.innerHTML = "Press [Space] to race!";
-  }
-};
-
 function startGame () {
-  console.log('allPlayersReady: ' + allPlayersReady());
   if (allPlayersReady()) {
     gameState = "playing"; //movement events are accepted now
-    message.innerHTML = "Go! Go! Go!";
+    message.html("Go! Go! Go!");
   }
-  else {
-    alert('All players must ready up first!');
-  };
-};
-
-function allPlayersReady () {
-  var numReady = 0;
-  for (var i = 0; i < players.length; i++) {
-    //check player is ready
-    if (players[i].ready === true){
-      numReady++;
-    }
-    else {
-      break;
-    };
-  };
-  return (numReady === players.length);
 };
 
 /*________________ RUN GAME _____________________*/
 
 maze = newMaze(7,7);
 //Winning square is at the center of the maze
-winCell = [Math.floor(newMaze.length/2), Math.floor(newMaze[0].length/2)]
+winCell = [Math.floor(maze.length/2), Math.floor(maze[0].length/2)]
 drawMaze();
 drawPlayers();
 

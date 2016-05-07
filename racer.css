@@ -72,6 +72,10 @@ table.controls thead, table.controls th {
   padding-right: 3px;
 }
 
+.controls img {
+  width: 180px;
+}
+
 input {
   color: #333;
 }
@@ -110,6 +114,11 @@ input {
   border-left: 2px solid black;
 }
 
+.finish {
+  background-color: yellow;
+}
+
+/* useful classes */
 .center {
   text-align: center;
 }
