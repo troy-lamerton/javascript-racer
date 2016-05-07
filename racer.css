@@ -87,42 +87,50 @@ input {
   height: 60%;
   margin-left: auto;
   margin-right: auto;
+
 }
 /* Maze display */
 .maze table {
   margin-left: auto;
   margin-right: auto;
+  background-color: #bbb;
 }
-.game td, .game tr {
-  width:45px;
-  height:45px;
+.maze td {
+  width:40px;
+  height:40px;
+  background-color: black;
 }
-.game tr {
+.maze tr {
   width: 150px;
 }
 /* Cell borders/maze walls */
 .top {
-  border-top: 2px solid black;
+  border-top: 3px solid black;
 }
 .right {
-  border-right: 2px solid black;
+  border-right: 3px solid black;
 }
 .bottom {
-  border-bottom: 2px solid black;
+  border-bottom: 3px solid black;
 }
 .left {
-  border-left: 2px solid black;
+  border-left: 3px solid black;
 }
 
-.finish {
-  background-color: yellow;
+td.finish {
+  background-color: #f9c402;
 }
 
-/* useful classes */
+td.shown {
+  background-color: inherit;
+}
+
+
 .center {
   text-align: center;
 }
 
+/* used by restart game button */
 .hide {
   display: none;
 }

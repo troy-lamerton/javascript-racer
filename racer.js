@@ -68,7 +68,6 @@ function drawMaze () {
   var gameDiv = $("#maze");
   var rowString = "";
   var tableString = "<table><tbody>";
-  console.log("win:",winCell);
   // draw rows of cells
   maze.forEach(function (rowElement, row, array) {
     // tableString += "<tr>");
@@ -91,10 +90,6 @@ function drawMaze () {
         cellClasses += "left ";
       }
       //check if this is the winning cell
-      if (row === 3 && cell === 3){
-        console.log (isWinCell([row,cell]));
-        console.log([row,cell]);
-      }
       if (isWinCell([row,cell])) {
         //apply the winning cell class
         cellClasses += "finish ";
@@ -117,7 +112,7 @@ function drawMaze () {
 }
 
 /* drawPlayers ():
- remove the players and adds the <div>s to their current position */
+ removes the player <div>s and adds the <div>s to their current position */
 function drawPlayers () {
   $("#one").remove();
   $("#two").remove();
@@ -131,6 +126,26 @@ function drawPlayers () {
   var cellPTwo = players[1].position[1];
   $("#cell_" + rowPOne + "_" + cellPOne).html(playerOneDiv);
   $("#cell_" + rowPTwo + "_" + cellPTwo).html(playerTwoDiv);
+
+  spotlightMap(players[0].position);
+  spotlightMap(players[1].position);
+}
+
+/* Display the map around a position */
+function spotlightMap (position) {
+  //light up the cells around the position
+  //start from 2 cells above and to the left of the player. row-2, cell-2
+  //finish at 2 cells below and 2 to the right. row+2, cell+2
+  for (var row = position[0]-2; row < position[0]+2; row++) {
+    for (var cell = position[1]-2; cell < position[1]+2; cell++) {
+      if (maze[row] != undefined && maze[row][cell] != undefined) {
+        //spotlight this cell if its not the winCell
+        if (!isWinCell([row, cell])) {
+          $("#cell_" + row + "_" + cell).addClass("shown");
+        }
+      }
+    }
+  }
 }
 
 /*  canMove (player, direction): true or false | 
@@ -140,7 +155,7 @@ function drawPlayers () {
 function canMove (player, direction) {
   var wallIndex = -1; //Index of the wall that the player is trying to pass through
   //0 top, 1 right, 2 bottom, 3 left
-  // check the position in the maze that the player is at for a wall at wallIndex
+  
   if (direction === "up") {
     wallIndex = 0;
   }
@@ -153,7 +168,7 @@ function canMove (player, direction) {
   else if (direction === "left") {
     wallIndex = 3;
   }
-
+  // check the position in the maze that the player is at for a wall at wallIndex
   if (maze[ player.position[0] ][ player.position[1] ][wallIndex]) {
     //there is a wall in the way of moving in this direction, can't move in that direction
     return false;
@@ -225,10 +240,10 @@ var gameState = "readyUp"; //readyUp, playing, win1, win2
 
 /* Assign keyup handler once page is fully loaded*/
 document.addEventListener('DOMContentLoaded', function() {
-  document.addEventListener('keyup', keyUpHandler, false)
+  document.addEventListener('keydown', keyDownHandler, false)
 });
 /* Keycodes map https://shikargar.files.wordpress.com/2010/10/keycodes.png */
-function keyUpHandler (e) {
+function keyDownHandler (e) {
   //R key is 82
   if (e.keyCode == 82) {
     restartGame();
