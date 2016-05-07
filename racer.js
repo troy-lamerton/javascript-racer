@@ -47,7 +47,7 @@ var winCell = [3,3] //location of the winning square, can be directly compared w
 /*  Game functions */
 //    In function parameters, (player) means 
 //    the player object e.g. players[1] is player 2.
-//    (playerIndex) means the players index, e.g. 0 refers to player 1 in the player array
+//    (playerIndex) means the players index, e.g. 0 refers to player 1 in the players array
 /*  
     drawMaze (): creates an HTML table and draws the currently stored
       maze
@@ -55,12 +55,11 @@ var winCell = [3,3] //location of the winning square, can be directly compared w
     canMove (player, direction): true or false | 
       checks if a given player is not blocked and 
       can move in the given direction
-    move (player, direction): true or false |
+    move (playerIndex, direction): true or false | moves the player in the direction given then draws the players
       true: player has won
       false: player has not won, game continues
-    hasWon (player): | displays that player has won,
-      pauses the game and shows the restart button. Local function inside move.
-    announceWinner (player): | displays that player has won, 
+    hasWon (player): true or false | checks that the player has won.
+    announceWinner (playerIndex): | displays that player has won, 
       pauses the game and shows the restart button
     newMaze (): | sets the players to their starting positions,
       generates a new maze and set maze = to the new maze.
@@ -113,8 +112,8 @@ function drawPlayers () {
   $("#one").remove();
   $("#two").remove();
 
-  var playerOneDiv = '<div class="player one"></div>';
-  var playerTwoDiv = '<div class="player two"></div>';
+  var playerOneDiv = '<div class="player one" id="one"></div>';
+  var playerTwoDiv = '<div class="player two" id="two"></div>';
 
   var rowPOne = players[0].position[0];
   var cellPOne = players[0].position[1];
@@ -126,7 +125,8 @@ function drawPlayers () {
 
 /*  canMove (player, direction): true or false | 
       checks if a given player is not blocked and 
-      can move in the direction specified */
+      can move in the direction specified 
+      NOTE: Assumes that the maze is enclosed in a square, i.e. the outer cells have walls to the outside. */
 function canMove (player, direction) {
   var wallIndex = -1; //Index of the wall that the player is trying to pass through
   //0 top, 1 right, 2 bottom, 3 left
@@ -143,12 +143,9 @@ function canMove (player, direction) {
   else if (direction === "left") {
     wallIndex = 3;
   }
-  else {
-    throw new Error("Unexpected direction string!");
-  }
+
   if (maze[ player.position[0] ][ player.position[1] ][wallIndex]) {
-    //there is a wall in the way of moving in this direction, can't move here
-    console.log(maze[ player.position[0] ][ player.position[1] ]);
+    //there is a wall in the way of moving in this direction, can't move in that direction
     return false;
   }
   else {
@@ -157,11 +154,36 @@ function canMove (player, direction) {
   }
 }
 
-function move (player, direction) {
-  if (canMove(player, direction)) {
-
+/* move (playerIndex, direction): true or false | moves the player in the direction given then draws the players
+      true: player has won
+      false: player has not won, game continues */
+function move (playerIndex, direction) {
+  if (canMove(players[playerIndex], direction)) {
+    //add or subtract one from, an item in the player's position array
+    if (direction === "up") {
+      //add one to y
+      players[playerIndex].position[0]++;
+    }
+    else if (direction === "right") {
+      //add one to x
+      players[playerIndex].position[1]++;
+    }
+    else if (direction === "down") {
+      //sub one from y
+      players[playerIndex].position[0]--;
+    }
+    else if (direction === "left") {
+      //sub one from x
+      players[playerIndex].position[1]--;
+    }
+    else {
+      throw new Error("Unexpected direction string given to player moving function!");
+    }
+    
+    drawPlayers();
   }
   else {
+    //can't move so player definately hasn't won from this move
     return false;
   }
 
@@ -185,25 +207,12 @@ function keyUpHandler (e) {
   if (e.keyCode == 82) {
     restartGame();
     return;
-  } /* Player one */
-  if (e.keyCode == 81) {
-    //Q key is 81
-    if (gameState === "readyUp") {
-      readyUp(0);
-    }
-    else if (gameState === "playing"){
-      movePlayer(0);
-    }
-  } /* Player two */
-  else if (e.keyCode == 80) {
-    //P key is 80
-    if (gameState === "readyUp") {
-      readyUp(1);
-    }
-    else if (gameState === "playing"){
-      movePlayer(1);
-    }
-  }
+  } 
+
+  /* Player one */
+  
+  /* Player one */
+
   else if (e.keyCode == 32 && gameState === "readyUp") {
     //Space is 32
     startGame();
