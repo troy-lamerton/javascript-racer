@@ -35,11 +35,11 @@ var players = [
     This is the same as CSS. */
 var maze = [ //The below maze is 7x7 in size, and is simply a square. The top left cell is at [0, 0].
     [[true,false,false,true], [true,false,false,false], [true,false,false,false], [true,false,false,false], [true,false,false,false], [true,false,false,false], [true,true,false,false]],
-    [[false,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,true,false,false]],
-    [[false,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,true,false,false]],
-    [[false,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true],true [true,true,false,false]],
-    [[false,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,true,false,false]],
-    [[false,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,false,false,true], [true,true,false,false]],
+    [[false,false,false,true], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,true,false,false]],
+    [[false,false,false,true], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,true,false,false]],
+    [[false,false,false,true], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,true,false,false]],
+    [[false,false,false,true], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,true,false,false]],
+    [[false,false,false,true], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,false,false,false], [false,true,false,false]],
     [[false,false,true,true], [false,false,true,false], [false,false,true,false], [false,false,true,false], [false,false,true,false], [false,false,true,false], [false,true,true,false]]
 ];
 
@@ -65,15 +65,19 @@ var winCell = [3,3] //location of the winning square, can be directly compared w
     drawMaze (): creates an HTML table and draws the currently stored
       maze */
 function drawMaze () {
-  var gameDiv = $("#game");
-  gameDiv.prepend("<table><tbody>");
+  var gameDiv = $("#maze");
+  var rowString = "";
+  var tableString = "<table><tbody>";
 
   // draw rows of cells
-  maze.forEach(function (rowElement, row) {
-    maze[index].forEach(function (cellElement, cell) {
+  maze.forEach(function (rowElement, row, array) {
+    // tableString += "<tr>");
+    rowString += "<tr>";
+    maze[row].forEach(function (cellElement, cell, array) {
       //for each cell in the row
       var borderClasses = "";
       //add a border for each wall exists
+      
       if (maze[row][cell][0]) {
         borderClasses += "top ";
       }
@@ -86,12 +90,18 @@ function drawMaze () {
       if (maze[row][cell][3]) {
         borderClasses += "left ";
       }
-
-      gameDiv.append('<td class="' + borderClasses + '"></td>');
+      //remove the trailing space character
+      borderClasses = borderClasses.slice(0, borderClasses.length-1)
+      rowString += '<td class="' + borderClasses + '"></td>';
     });
+    // tableString += "</tr>");
+    rowString += "</tr>";
+    tableString += rowString;
+    rowString = "";
   });
 
-  gameDiv.append("</tbody></table>");
+  tableString += "</tbody></table>";
+  gameDiv.append(tableString);
 }
 
 drawMaze();
