@@ -162,7 +162,7 @@ function move (playerIndex, direction) {
     //add or subtract one from, an item in the player's position array
     if (direction === "up") {
       //add one to y
-      players[playerIndex].position[0]++;
+      players[playerIndex].position[0]--;
     }
     else if (direction === "right") {
       //add one to x
@@ -170,7 +170,7 @@ function move (playerIndex, direction) {
     }
     else if (direction === "down") {
       //sub one from y
-      players[playerIndex].position[0]--;
+      players[playerIndex].position[0]++;
     }
     else if (direction === "left") {
       //sub one from x
@@ -179,7 +179,7 @@ function move (playerIndex, direction) {
     else {
       throw new Error("Unexpected direction string given to player moving function!");
     }
-    
+
     drawPlayers();
   }
   else {
@@ -209,9 +209,33 @@ function keyUpHandler (e) {
     return;
   } 
 
-  /* Player one */
-  
-  /* Player one */
+  /* Player one movement */
+  if (e.keyCode == 87) {
+    move(0, "up");
+  }
+  else if (e.keyCode == 68) {
+    move(0, "right");
+  }
+  else if (e.keyCode == 83) {
+    move(0, "down");
+  }
+  else if (e.keyCode == 65) {
+    move(0, "left");
+  }
+
+  /* Player two movement */
+  if (e.keyCode == 38) {
+    move(1, "up");
+  }
+  else if (e.keyCode == 39) {
+    move(1, "right");
+  }
+  else if (e.keyCode == 40) {
+    move(1, "down");
+  }
+  else if (e.keyCode == 37) {
+    move(1, "left");
+  }
 
   else if (e.keyCode == 32 && gameState === "readyUp") {
     //Space is 32
