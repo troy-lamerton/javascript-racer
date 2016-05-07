@@ -126,30 +126,29 @@ function drawPlayers () {
 
 /*  canMove (player, direction): true or false | 
       checks if a given player is not blocked and 
-      can move in the given direction */
+      can move in the direction specified */
 function canMove (player, direction) {
-  var moveToCell = [];
-  var wallIndex = -1; //Index of the wall in moveToCell that the player trying to enter
+  var wallIndex = -1; //Index of the wall that the player is trying to pass through
   //0 top, 1 right, 2 bottom, 3 left
-
+  // check the position in the maze that the player is at for a wall at wallIndex
   if (direction === "up") {
-    moveToCell = maze[player.position[0]+1, player.position[1]]; //one row above the player
-    wallIndex = 2;
-  }
-  else if (direction === "right") {
-    moveToCell = maze[player.position[0], player.position[1]+1];
-    wallIndex = 3;
-  }
-  else if (direction === "down") {
-    moveToCell = maze[player.position[0]-1, player.position[1]];
     wallIndex = 0;
   }
-  else if (direction === "left") {
-    moveToCell = maze[player.position[0], player.position[1]-1];
+  else if (direction === "right") {
     wallIndex = 1;
   }
-  if (moveToCell[wallIndex]) {
-    //there is a wall in the wall, can't move here
+  else if (direction === "down") {
+    wallIndex = 2;
+  }
+  else if (direction === "left") {
+    wallIndex = 3;
+  }
+  else {
+    throw new Error("Unexpected direction string!");
+  }
+  if (maze[ player.position[0] ][ player.position[1] ][wallIndex]) {
+    //there is a wall in the way of moving in this direction, can't move here
+    console.log(maze[ player.position[0] ][ player.position[1] ]);
     return false;
   }
   else {
@@ -159,7 +158,7 @@ function canMove (player, direction) {
 }
 
 function move (player, direction) {
-  if (canMove(player,direction)) {
+  if (canMove(player, direction)) {
 
   }
   else {
