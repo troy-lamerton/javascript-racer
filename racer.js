@@ -61,8 +61,7 @@ var winCell = [3,3] //location of the winning square, can be directly compared w
     hasWon (player): true or false | checks that the player has won.
     announceWinner (playerIndex): | displays that player has won, 
       pauses the game and shows the restart button
-    newMaze (): | sets the players to their starting positions,
-      generates a new maze and set maze = to the new maze.
+    newMaze (x, y)<-- See newMaze.js (code is not my own)
     */
 
 function drawMaze () {
@@ -103,7 +102,9 @@ function drawMaze () {
   });
 
   tableString += "</tbody></table>";
-  gameDiv.append(tableString);
+  gameDiv.html(tableString);
+
+  drawPlayers(); //Update the players
 }
 
 /* drawPlayers ():
@@ -289,11 +290,15 @@ function allPlayersReady () {
   return (numReady === players.length);
 };
 
-/*________________ RUN GAME _____________________ */
+/*________________ RUN GAME _____________________*/
 
+maze = newMaze(7,7);
+//Winning square is at the center of the maze
+winCell = [Math.floor(newMaze.length/2), Math.floor(newMaze[0].length/2)]
 drawMaze();
 drawPlayers();
 
+/*_______________________________________________*/
 
 function gameWon (playerIndex) {
   gameState = "win" + (playerIndex + 1); //win1 or win2
