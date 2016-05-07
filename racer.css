@@ -1,63 +1,21 @@
+body {
+  background-color: #333;
+  color: #EEE;
+}
+/* Players */
 .player {
   box-sizing: border-box;
-  width: 10%;
-  height: 70px;
-  line-height: 400%;
-  display: block;
-  margin-left:-9%;
+  width: 90%;
+  height: 90%;
   z-index: 10;
-
-  color: white;
-  text-align: center;
-  font-weight: bolder;
-
-  border: 2px solid black;
-  border-radius: 2em;
-
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
+  border: 2px solid gray;
+  border-radius: 50%;
 }
 .one {
-  top: 40%;
   background-color: #0971ef;
 }
 .two {
-  top: 50%;  
   background-color: red;
-}
-
-.game {
-  width: 100%;
-  height: 60%;
-  margin-top: 1%;
-}
-.track {
-  box-sizing: border-box;
-  width: 100%;
-  height: 100px;
-  padding-top:15px;
-  margin-bottom:-10px;
-
-  background-image: url('track-tile.gif');
-  background-clip: border-box;
-  background-color: gray;
-
-  text-align: center;
-  color: white;
-  z-index: 0;
-}
-.finish {
-  width: 0;
-  height: 190px;
-  position: absolute;
-  margin: 0;
-  left: 90%;
-
-  background: white;
-  border-left: 6px dashed black;
-  border-right: 6px dashed black;
-  z-index:1;
 }
 
 .dimmed {
@@ -114,15 +72,27 @@ table.controls thead, table.controls th {
   padding-right: 3px;
 }
 
-/* Maze display classes */
+/* Game display */
+.game {
+  margin-top: 1%;
+  width: 60%;
+  height: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Maze display */
+.maze table {
+  margin-left: auto;
+  margin-right: auto;
+}
 .game td, .game tr {
-  width:20px;
-  height:20px;
+  width:45px;
+  height:45px;
 }
 .game tr {
   width: 150px;
 }
-
+/* Cell borders/maze walls */
 .top {
   border-top: 2px solid black;
 }

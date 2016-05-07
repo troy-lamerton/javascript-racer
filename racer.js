@@ -21,8 +21,8 @@ var message = document.getElementById('message');
                         true: player is pointing vertically,
                         used for visually displaying the player */
 var players = [
-  {html: player1, position: [-1, -1], direction: true, ready: false},
-  {html: player2, position: [-1, -1], direction: true, ready: false}
+  {html: player1, position: [0, 0], direction: true, ready: false},
+  {html: player2, position: [6, 6], direction: true, ready: false}
   // position: [row, cell] (essentially y, x)
 ];
 
@@ -56,14 +56,15 @@ var winCell = [3,3] //location of the winning square, can be directly compared w
       checks if a given player is not blocked and 
       can move in the given direction
     hasWon (player): | displays that player has won,
-      pauses the game and shows the restart button
+      pauses the game and shows the restart button. Local function inside move.
     announceWinner (player): | displays that player has won, 
       pauses the game and shows the restart button
     newMap (filePath): true if successfully loads | loads a new map from
       given filePath, sets the player starting positions 
       and centre win block position
     drawMaze (): creates an HTML table and draws the currently stored
-      maze */
+      maze
+    drawPlayers (): remove the players and adds the <div>s to their current position */
 function drawMaze () {
   var gameDiv = $("#maze");
   var rowString = "";
@@ -92,7 +93,8 @@ function drawMaze () {
       }
       //remove the trailing space character
       borderClasses = borderClasses.slice(0, borderClasses.length-1)
-      rowString += '<td class="' + borderClasses + '"></td>';
+      var cellId = "cell_" + row + "_" + cell; // cell_0_0
+      rowString += '<td class="' + borderClasses + '" id="' + cellId + '"></td>';
     });
     // tableString += "</tr>");
     rowString += "</tr>";
@@ -103,8 +105,23 @@ function drawMaze () {
   tableString += "</tbody></table>";
   gameDiv.append(tableString);
 }
+/* drawPlayers ():
+ remove the players and adds the <div>s to their current position */
+function drawPlayers () {
+  $("#one").remove();
+  $("#two").remove();
 
-drawMaze();
+  var playerOneDiv = '<div class="player one"></div>';
+  var playerTwoDiv = '<div class="player two"></div>';
+
+  var rowPOne = players[0].position[0];
+  var cellPOne = players[0].position[1];
+  var rowPTwo = players[1].position[0];
+  var cellPTwo = players[1].position[1];
+  $("#cell_" + rowPOne + "_" + cellPOne).html(playerOneDiv);
+  $("#cell_" + rowPTwo + "_" + cellPTwo).html(playerTwoDiv);
+}
+
 //states
 var gameState = "readyUp"; //readyUp, playing, win1, win2
 
@@ -236,13 +253,19 @@ function allPlayersReady () {
   return (numReady === players.length);
 };
 
+/*________________ RUN GAME _____________________ */
+
+drawMaze();
+drawPlayers();
+
+
 function gameWon (playerIndex) {
   gameState = "win" + (playerIndex + 1); //win1 or win2
   message.innerHTML = "Player " + (playerIndex+1) + " wins the race!";
   //dim the other player's spotlight
   dimOtherTrack(playerIndex);
   //show restart game button
-  document.getElementById('restart').className = "show";
+  $('#restart').className = "show";
 };
 /* Dims a player's track - visual only, doesn't affect movement */
 function dimOtherTrack (playerIndex) {
