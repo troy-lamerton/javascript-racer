@@ -9,7 +9,7 @@ var player2 = $('#player2');
 var ready1 = document.getElementById('ready1');
 var ready2 = document.getElementById('ready2');
 //message text
-var message = document.getElementById('message');
+var message = $('#message');
 
 /*  Players object */
 //  An array of two player objects, stored at players[0] and [1]
@@ -164,9 +164,7 @@ function canMove (player, direction) {
   }
 }
 
-/* move (playerIndex, direction): true or false | moves the player in the direction given then draws the players
-      true: player has won
-      false: player has not won, game continues */
+/* move (playerIndex, direction): true or false | moves the player in the direction given then draws the players */
 function move (playerIndex, direction) {
   if (canMove(players[playerIndex], direction)) {
     //add or subtract one from, an item in the player's position array
@@ -191,11 +189,9 @@ function move (playerIndex, direction) {
     }
 
     drawPlayers();
-    return isWinCell(players[playerIndex].position);
-  }
-  else {
-    //can't move so player definately hasn't won
-    return false;
+    if( isWinCell(players[playerIndex].position) ){
+      announceWinner(playerIndex);
+    }
   }
 }
 
